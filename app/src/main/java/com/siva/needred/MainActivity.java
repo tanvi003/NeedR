@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
         mToolbar = (Toolbar) findViewById(R.id.main_page_toolbar);
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle("N E E D   R E D");
+        getSupportActionBar().setTitle("HALF - LIFE");
 
         if (mAuth.getCurrentUser() != null) {
 
