@@ -6,20 +6,23 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
     tools:context="com.siva.needred.MainActivity">
+
     <View
         android:id="@+id/background_view"
-        android:background="@android:color/background_dark"
-        android:alpha="0"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:alpha="0"
+        android:background="@android:color/background_dark" />
 
 
     <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/appBarLayout">
+        android:layout_height="wrap_content">
 
-        <include layout="@layout/app_bar_layout" android:id="@+id/main_page_toolbar"/>
+        <include
+            android:id="@+id/main_page_toolbar"
+            layout="@layout/app_bar_layout" />
 
         <android.support.design.widget.TabLayout
             android:id="@+id/main_tabs"
