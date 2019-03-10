@@ -11,6 +11,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -105,54 +106,66 @@ public class DonorListFragment extends Fragment {
                 mUsersDatabase.child(list_user_id).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        final String userName = dataSnapshot.child("name").getValue().toString();
-                        String blood=dataSnapshot.child("blood_group").getValue().toString();
-                        String phone=dataSnapshot.child("mobile").getValue().toString();
-                        String address=dataSnapshot.child("place").getValue().toString();
+
+                        try{
+                            final String userName = dataSnapshot.child("name").getValue().toString();
+                            String blood=dataSnapshot.child("blood_group").getValue().toString();
+                            String phone=dataSnapshot.child("mobile").getValue().toString();
+                            String address=dataSnapshot.child("place").getValue().toString();
 
 
-                        donorsViewHolder.setName(userName);
-                        donorsViewHolder.setBlood(blood);
-                        donorsViewHolder.setAddress(address);
-                        donorsViewHolder.setPhone(phone);
-                        final String uri=phone;
-                        donorsViewHolder.mView.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
+                            donorsViewHolder.setName(userName);
+                            donorsViewHolder.setBlood(blood);
+                            donorsViewHolder.setAddress(address);
+                            donorsViewHolder.setPhone(phone);
+                            final String uri=phone;
 
-                                CharSequence options[] = new CharSequence[]{"Email", "Call"};
 
-                                final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                            donorsViewHolder.mView.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
 
-                                builder.setTitle("Select Options");
-                                builder.setItems(options, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                    CharSequence options[] = new CharSequence[]{"Email", "Call"};
 
-                                        //Click Event for each item.
-                                        if(i == 0){
+                                    final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+                                    builder.setTitle("Select Options");
+                                    builder.setItems(options, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                                            //Click Event for each item.
+                                            if(i == 0){
 
                                           /*  Intent profileIntent = new Intent(getContext(), ProfileActivity.class);
                                             profileIntent.putExtra("user_id", list_user_id);
                                             startActivity(profileIntent);*/
 
+                                            }
+
+                                            if(i == 1){
+                                                Intent callIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+uri));
+                                                // callIntent.setData(Uri.parse("tel:"+uri));
+                                                callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                getActivity().startActivity(callIntent);
+
+                                            }
+
                                         }
+                                    });
 
-                                        if(i == 1){
-                                          Intent callIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+uri));
-                                            // callIntent.setData(Uri.parse("tel:"+uri));
-                                            callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                            getActivity().startActivity(callIntent);
+                                    builder.show();
 
-                                        }
+                                }
+                            });
 
-                                    }
-                                });
+                        }
+                        catch (Exception e){
 
-                                builder.show();
+                            Log.d("CRASH ",e.getMessage());
+                        }
 
-                            }
-                        });
+
 
 
                     }
